@@ -1,4 +1,4 @@
-package com.apiit.eeashoppingapplication;
+package com.apiit.eeashoppingapplication.Models;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,12 +12,13 @@ public class Product {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    public String prodId;
-    public String prodName;
-    public String prodDiscription;
-    public String prodCategory;
-    public Double prodPrice;
-    public String prodImage;
+    private String prodId;
+
+    private String prodName;
+    private String prodDescription;
+    private String prodCategory;
+    private Double prodPrice;
+    private String prodImage;
 
     public String getProdId() {
         return prodId;
@@ -36,11 +37,11 @@ public class Product {
     }
 
     public String getProdDiscription() {
-        return prodDiscription;
+        return prodDescription;
     }
 
     public void setProdDiscription(String prodDiscription) {
-        this.prodDiscription = prodDiscription;
+        this.prodDescription = prodDiscription;
     }
 
     public String getProdCategory() {
@@ -59,7 +60,6 @@ public class Product {
         this.prodPrice = prodPrice;
     }
 
-
     public String getProdImage() {
         return prodImage;
     }
@@ -67,8 +67,4 @@ public class Product {
     public void setProdImage(String prodImage) {
         this.prodImage = prodImage;
     }
-
-
-
-
 }
