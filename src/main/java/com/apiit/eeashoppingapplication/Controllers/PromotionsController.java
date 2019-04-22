@@ -49,6 +49,7 @@ public class PromotionsController{
 
         promotionsRepository.deleteById(id);
 
+
     }
 
 

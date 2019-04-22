@@ -37,22 +37,13 @@ public class   ProductController {
     }
 
     @PutMapping
-    public Boolean updateProduct(@RequestBody String product_id) {
+    public Product updateProduct(@RequestBody Product product) {
 
-        boolean flag;
+            return productRepository.save(product);
 
-        Product product = getProduct(product_id);
-        if(product != null){
-            productRepository.save(product);
-            flag = true;
-        }
-        else {
-            flag = false;
-        }
-        return flag;
     }
 
-    @DeleteMapping(path = "/id")
+    @DeleteMapping(path = "/{id}")
     public boolean deleteProduct(@PathVariable String id) {
 
         boolean flag;

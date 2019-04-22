@@ -6,6 +6,8 @@ import com.apiit.eeashoppingapplication.Repositories.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "/cart")
 public class CartController {
@@ -24,20 +26,26 @@ public class CartController {
     }
 
     @PostMapping(path = "/new")
-    public Cart newCartItem(@RequestBody Cart cart) {
+    public Cart newCartItem(@RequestBody Cart newcart) {
+        Cart cartItem;
+        Optional<Cart> cartOptional = cartRepository.findById(newcart.getCartId());
+        if(cartOptional.isPresent()){
+            cartItem = cartOptional.get();
+            cartItem.setProdQty(cartItem.getProdQty() + newcart.getProdQty());
+            updateCart(cartItem);
+        }else {
+            cartItem = cartRepository.save(newcart);
+        }
 
-        cartRepository.save(cart);
-        System.out.println(cart.getCartId() + "is added ");
+        System.out.println(cartItem.getCartId() + "is added ");
 
-        return cart;
+        return cartItem;
     }
 
     @PutMapping
     public Cart updateCart(@RequestBody Cart cart) {
 
-        cartRepository.save(cart);
-
-        return cart;
+        return  cartRepository.save(cart);
 
     }
 
