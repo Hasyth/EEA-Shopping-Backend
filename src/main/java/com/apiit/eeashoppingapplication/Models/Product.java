@@ -16,7 +16,7 @@ public class Product {
 
     private String prodName;
     private String prodDescription;
-    private String prodCategory;
+    private String prodCategoryId;
     private Double prodPrice;
     private String prodImage;
 
@@ -45,11 +45,11 @@ public class Product {
     }
 
     public String getProdCategory() {
-        return prodCategory;
+        return prodCategoryId;
     }
 
     public void setProdCategory(String prodCategory) {
-        this.prodCategory = prodCategory;
+        this.prodCategoryId = prodCategory;
     }
 
     public Double getProdPrice() {

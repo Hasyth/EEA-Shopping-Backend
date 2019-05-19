@@ -25,10 +25,12 @@ public class CategoryController {
     @PostMapping(path = "/new")
     public Category newCategory(@RequestBody Category category) {
 
-        categoryRepository.save(category);
-        System.out.println(category.getCatName() + "is added ");
+        Category newcategory;
 
-        return category;
+        newcategory = categoryRepository.save(category);
+        System.out.println(newcategory.getCatName() + "is added ");
+
+        return newcategory;
     }
 
     @PutMapping
@@ -40,9 +42,18 @@ public class CategoryController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteCategory(@PathVariable String id) {
+    public boolean deleteCategory(@PathVariable String id) {
 
-        categoryRepository.deleteById(id);
+        boolean flag;
+        Category category = getCategory(id);
+        if (category != null) {
+            categoryRepository.deleteById(id);
+            flag = true;
+        } else {
+            flag = false;
+
+        }
+        return flag;
 
     }
 

@@ -15,8 +15,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping(path = "/all")
-    public @ResponseBody
-    Iterable<User> getUsers() {
+    public @ResponseBody Iterable<User> getUsers() {
         System.out.println("Fetching all products");
         return userRepository.findAll();
     }
@@ -30,10 +29,11 @@ public class UserController {
     @PostMapping(path = "/new")
     public User newUser(@RequestBody User user) {
 
-        userRepository.save(user);
-        System.out.println(user.getUserName()+ "is added ");
+        User newuser;
+        newuser = userRepository.save(user);
+        System.out.println(newuser.getUserName()+ "is added ");
 
-        return user;
+        return newuser;
     }
 
     @PutMapping
@@ -44,10 +44,20 @@ public class UserController {
         return user;
     }
 
-    @DeleteMapping(path = "/id")
-    public void deleteUser(@PathVariable String id) {
+    @DeleteMapping(path = "/{id}")
+    public boolean deleteUser(@PathVariable String id) {
 
-        userRepository.deleteById(id);
+        boolean flag;
+        User category = getUser(id);
+        if (category != null) {
+            userRepository.deleteById(id);
+            flag = true;
+        } else {
+            flag = false;
+
+        }
+        return flag;
+
 
     }
 }

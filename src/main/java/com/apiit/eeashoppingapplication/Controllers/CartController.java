@@ -50,9 +50,18 @@ public class CartController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteCart(@PathVariable String id) {
+    public boolean deleteCart(@PathVariable String id) {
 
-        cartRepository.deleteById(id);
+        boolean flag;
+        Cart cart = getCartItem(id);
+        if (cart != null) {
+            cartRepository.deleteById(id);
+            flag = true;
+        } else {
+            flag = false;
+
+        }
+        return flag;
 
     }
 

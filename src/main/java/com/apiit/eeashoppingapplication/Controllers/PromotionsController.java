@@ -30,10 +30,11 @@ public class PromotionsController{
     @PostMapping(path = "/new")
     public Promotions newCategory(@RequestBody Promotions promotions) {
 
-        promotionsRepository.save(promotions);
-        System.out.println(promotions.getPromName() + "is added ");
+         Promotions newpromotions;
+        newpromotions = promotionsRepository.save(promotions);
+        System.out.println(newpromotions.getPromName() + "is added ");
 
-        return promotions;
+        return newpromotions;
     }
 
     @PutMapping
@@ -45,9 +46,18 @@ public class PromotionsController{
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deletePromotions(@PathVariable String id) {
+    public boolean deletePromotions(@PathVariable String id) {
 
-        promotionsRepository.deleteById(id);
+        boolean flag;
+        Promotions category = getPromotions(id);
+        if (category != null) {
+            promotionsRepository.deleteById(id);
+            flag = true;
+        } else {
+            flag = false;
+
+        }
+        return flag;
 
 
     }

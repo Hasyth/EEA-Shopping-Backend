@@ -43,6 +43,8 @@ public class Cart {
         this.prodName = prodName;
     }
 
+
+
     public String getProdQty() {
         return prodQty;
     }
