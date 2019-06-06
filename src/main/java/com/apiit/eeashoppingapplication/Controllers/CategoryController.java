@@ -2,59 +2,57 @@ package com.apiit.eeashoppingapplication.Controllers;
 
 import com.apiit.eeashoppingapplication.Models.Category;
 import com.apiit.eeashoppingapplication.Repositories.CategoryRepository;
+import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/category")
 public class CategoryController {
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    CategoryRepository categoryRepository;
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/public/all")
     public @ResponseBody Iterable<Category> getCategories() {
+
         return categoryRepository.findAll();
     }
 
-    @GetMapping(path = "/{id}")
-    public Category getCategory(@PathVariable String id) {
-        return categoryRepository.findById(id).get();
-    }
 
-    @PostMapping(path = "/new")
-    public Category newCategory(@RequestBody Category category) {
+   @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping(path = "/auth/new/")
+    public Category addNewCategory(@RequestBody String categoryName) {
 
-        Category newcategory;
-
-        newcategory = categoryRepository.save(category);
-        System.out.println(newcategory.getCatName() + "is added ");
-
-        return newcategory;
-    }
-
-    @PutMapping
-    public Category updateCategory(@RequestBody Category category) {
-
+        Category category = new Category();
+       category.setCatName(categoryName);
         categoryRepository.save(category);
+        System.out.println(category.getCatName() + "is added ");
 
         return category;
     }
 
-    @DeleteMapping(path = "/{id}")
-    public boolean deleteCategory(@PathVariable String id) {
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping(path = "/auth")
+    public Category updateCategory(@RequestBody Category category) {
 
-        boolean flag;
-        Category category = getCategory(id);
-        if (category != null) {
+        categoryRepository.save(category);
+        System.out.println(category.getCatName() + " is updated");
+        return category;
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @DeleteMapping(path = "/auth/{id}")
+    public boolean deleteCategory(@PathVariable int id) {
+
+        Optional<Category> cat = categoryRepository.findById(id);
+        if(cat.isPresent())
             categoryRepository.deleteById(id);
-            flag = true;
-        } else {
-            flag = false;
-
-        }
-        return flag;
-
+        System.out.println(cat.get().getCatName() + " is deleted");
+        return cat.isPresent();
     }
 
 

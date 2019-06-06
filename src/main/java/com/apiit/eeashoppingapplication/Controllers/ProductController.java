@@ -3,7 +3,10 @@ package com.apiit.eeashoppingapplication.Controllers;
 import com.apiit.eeashoppingapplication.Repositories.ProductRepository;
 import com.apiit.eeashoppingapplication.Models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/product")
@@ -12,7 +15,17 @@ public class   ProductController {
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping(path = "/all")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping(path = "/auth/add")
+    public Product addNewProduct(@RequestBody Product product){
+        productRepository.save(product);
+        System.out.println(product.getProdName() + " is added");
+
+        return product;
+    }
+
+
+    @GetMapping(path = "/public/all")
     public @ResponseBody Iterable<Product> getProducts() {
         System.out.println("Fetching all products");
         return productRepository.findAll();
@@ -20,30 +33,49 @@ public class   ProductController {
 
     @GetMapping(path = "/{id}")
     public Product getProduct(@PathVariable String id) {
-        System.out.println("Fetching product one by one");
+        System.out.println("Fetching product " + id);
         return productRepository.findById(id).get();
     }
 
-    @PostMapping(path = "/new")
-    public Product newProduct(@RequestBody Product product) {
-
-        Product newproduct;
-
-
-        newproduct = productRepository.save(product);
-        System.out.println(newproduct.getProdName() + "is added ");
-
-        return newproduct;
+    @GetMapping(path = "/public/category/{cat_id}")
+    public Iterable getProductsFromCategory(@PathVariable String cat_id){
+        System.out.println("Fetching products from category "+cat_id);
+        return productRepository.findAllByProdCategoryId(cat_id);
     }
 
-    @PutMapping
-    public Product updateProduct(@RequestBody Product product) {
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping(path = "/auth")
+    public boolean updateProduct(@RequestBody Product product){
 
-            return productRepository.save(product);
+        Optional<Product> prod = productRepository.findById(product.getProdId());
+        if (prod.isPresent()) {
+            productRepository.save(product);
+            System.out.println(product.getProdName() + " is updated");
+            return true;
+
+        }{
+            System.out.println(product.getProdName()+ " is not updated");
+            return false;
+        }
+
+
+
 
     }
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @DeleteMapping("/auth/{id}")
+    public Boolean deleteProduct(@PathVariable String id){
 
-    @DeleteMapping(path = "/{id}")
+        boolean flag = false;
+
+        productRepository.deleteById(id);
+
+        flag = true;
+
+
+        return flag;
+    }
+    /*@DeleteMapping(path = "/{id}")
     public boolean deleteProduct(@PathVariable String id) {
 
         boolean flag;
@@ -57,6 +89,6 @@ public class   ProductController {
         }
 
         return flag;
-    }
+    }*/
 
 }

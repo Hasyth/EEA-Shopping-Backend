@@ -1,20 +1,38 @@
 package com.apiit.eeashoppingapplication.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Promotions {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(name = "promo_id")
     private String promId;
+
+
+
     private String promName;
     private String promDiscription;
     private Double prodPrecentage;
+    private int duration;
+
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private Date startDate;
+
+    private Date endDate = handleEndDate();
+
+    @OneToMany(mappedBy = "promotion")
+    @JsonIgnoreProperties("promotion")
+    private Set<Product> products;
 
     public String getPromId() {
         return promId;
@@ -46,5 +64,44 @@ public class Promotions {
 
     public void setProdPrecentage(Double prodPrecentage) {
         this.prodPrecentage = prodPrecentage;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
+    Date handleEndDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, duration);
+        return cal.getTime();
     }
 }

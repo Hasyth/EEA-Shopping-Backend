@@ -1,3 +1,4 @@
+/*
 package com.apiit.eeashoppingapplication.Models;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -13,6 +14,7 @@ public class Payment {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String paymentId;
+
     private String paymentName;
     private String paymentDiscription;
     private Double amount;
@@ -67,3 +69,4 @@ public class Payment {
         this.cartId = cartId;
     }
 }
+*/

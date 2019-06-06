@@ -1,3 +1,4 @@
+/*
 package com.apiit.eeashoppingapplication.Controllers;
 
 import com.apiit.eeashoppingapplication.Models.Payment;
@@ -59,3 +60,4 @@ public class PaymentController {
     }
 
 }
+*/
