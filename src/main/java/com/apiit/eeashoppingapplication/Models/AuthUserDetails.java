@@ -17,7 +17,7 @@ public class AuthUserDetails extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
-        return getUsertype().stream().map(type -> new SimpleGrantedAuthority("TYPE_"+type.getUserType())).collect(Collectors.toList());
+        return getRole().stream().map(type -> new SimpleGrantedAuthority("TYPE_"+type.getRole())).collect(Collectors.toList());
     }
 
     @Override
@@ -50,6 +50,3 @@ public class AuthUserDetails extends User implements UserDetails {
         return true;
     }
 }
-
-
-

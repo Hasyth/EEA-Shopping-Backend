@@ -12,7 +12,7 @@ public class UserForm {
     public String contact;
 
 
-    public String usertype;
+    public String role;
 
     public String image;
 }

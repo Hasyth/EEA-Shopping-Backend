@@ -23,8 +23,8 @@ public class CategoryController {
     }
 
 
-   @PreAuthorize("hasAnyRole('ADMIN')")
-    @PostMapping(path = "/auth/new/")
+//   @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping(path = "/auth/add")
     public Category addNewCategory(@RequestBody String categoryName) {
 
         Category category = new Category();
@@ -35,7 +35,7 @@ public class CategoryController {
         return category;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+   //@PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(path = "/auth")
     public Category updateCategory(@RequestBody Category category) {
 
@@ -44,7 +44,7 @@ public class CategoryController {
         return category;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+   // @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(path = "/auth/{id}")
     public boolean deleteCategory(@PathVariable int id) {
 

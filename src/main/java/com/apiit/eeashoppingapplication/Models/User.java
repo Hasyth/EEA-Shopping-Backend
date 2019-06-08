@@ -4,13 +4,12 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+
 import java.util.Set;
 
 @Entity
 public class User {
     @Id
-    @NotNull
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     public String userId;
@@ -27,8 +26,8 @@ public class User {
     public String contact;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_type", joinColumns = @JoinColumn(name = "user_name"), inverseJoinColumns = @JoinColumn(name = "userType_id"))
-    public Set<Usertype> usertype;
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "u_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    public Set<Role> role;
 
     public String image;
 
@@ -43,7 +42,7 @@ public class User {
         this.email = user.email;
         this.address = user.address;
         this.contact = user.contact;
-        this.usertype = user.usertype;
+        this.role = user.role;
         this.image = user.image;
     }
 
@@ -95,12 +94,12 @@ public class User {
         this.contact = contact;
     }
 
-    public Set<Usertype> getUsertype() {
-        return usertype;
+    public Set<Role> getRole() {
+        return role;
     }
 
-    public void setUsertype(Set<Usertype> usertype) {
-        this.usertype = usertype;
+    public void setRole(Set<Role> role) {
+        this.role = role;
     }
 
     public String getImage() {

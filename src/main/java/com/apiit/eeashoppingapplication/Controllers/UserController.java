@@ -2,8 +2,8 @@ package com.apiit.eeashoppingapplication.Controllers;
 
 import com.apiit.eeashoppingapplication.Models.*;
 import com.apiit.eeashoppingapplication.Repositories.ProductRepository;
+import com.apiit.eeashoppingapplication.Repositories.RoleRepository;
 import com.apiit.eeashoppingapplication.Repositories.UserRepository;
-import com.apiit.eeashoppingapplication.Repositories.UsertypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +21,13 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    UsertypeRepository usertypeRepository;
+    RoleRepository roleRepository;
 
     @PostMapping("/public/register")
     public User addNewUser(@RequestBody UserForm user){
 
-        Usertype type = usertypeRepository.findById(user.usertype).get();
-        Set<Usertype> roleSet = new HashSet<>();
+        Role type = roleRepository.findById(user.role).get();
+        Set<Role> roleSet = new HashSet<>();
         roleSet.add(type);
 
         User newUser = new User();
@@ -37,7 +37,7 @@ public class UserController {
         newUser.email = user.email;
         newUser.image = user.image;
         newUser.password = user.password;
-        newUser.usertype = roleSet;
+        newUser.role = roleSet;
         userRepository.save(newUser);
         System.out.println(newUser.userName + " is added");
 
@@ -82,7 +82,7 @@ public class UserController {
         return userRepository.existsByEmail(email);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    //@PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/auth/all")
     public @ResponseBody Iterable<User> getAllUsers(){
         System.out.println("Fetching all products");

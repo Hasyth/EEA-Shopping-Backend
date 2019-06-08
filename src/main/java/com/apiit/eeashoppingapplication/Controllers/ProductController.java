@@ -15,7 +15,7 @@ public class   ProductController {
     @Autowired
     private ProductRepository productRepository;
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping(path = "/auth/add")
     public Product addNewProduct(@RequestBody Product product){
         productRepository.save(product);
@@ -43,7 +43,7 @@ public class   ProductController {
         return productRepository.findAllByProdCategoryId(cat_id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    //@PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(path = "/auth")
     public boolean updateProduct(@RequestBody Product product){
 
@@ -62,7 +62,9 @@ public class   ProductController {
 
 
     }
-    @PreAuthorize("hasAnyRole('ADMIN')")
+
+
+    //@PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/auth/{id}")
     public Boolean deleteProduct(@PathVariable String id){
 

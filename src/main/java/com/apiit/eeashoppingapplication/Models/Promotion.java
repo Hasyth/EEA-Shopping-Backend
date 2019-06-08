@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class Promotions {
+public class Promotion {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -21,7 +21,8 @@ public class Promotions {
 
     private String promName;
     private String promDiscription;
-    private Double prodPrecentage;
+    private Double prodPercentage;
+
     private int duration;
 
     @Column(nullable = false, updatable = false)
@@ -59,11 +60,11 @@ public class Promotions {
     }
 
     public Double getProdPrecentage() {
-        return prodPrecentage;
+        return prodPercentage;
     }
 
     public void setProdPrecentage(Double prodPrecentage) {
-        this.prodPrecentage = prodPrecentage;
+        this.prodPercentage = prodPrecentage;
     }
 
     public int getDuration() {

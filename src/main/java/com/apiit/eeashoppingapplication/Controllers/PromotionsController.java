@@ -2,7 +2,7 @@ package com.apiit.eeashoppingapplication.Controllers;
 
 
 import com.apiit.eeashoppingapplication.Models.Category;
-import com.apiit.eeashoppingapplication.Models.Promotions;
+import com.apiit.eeashoppingapplication.Models.Promotion;
 import com.apiit.eeashoppingapplication.Repositories.CategoryRepository;
 import com.apiit.eeashoppingapplication.Repositories.PromotionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +20,21 @@ public class PromotionsController{
     private PromotionsRepository promotionsRepository;
 
     @GetMapping(path = "/public/all")
-    public @ResponseBody Iterable<Promotions> getPromotions() {
+    public @ResponseBody Iterable<Promotion> getPromotions() {
 
         return promotionsRepository.findAll();
     }
 
     @GetMapping(path = "/public/{id}")
-    public Promotions getPromotions(@PathVariable String id) {
+    public Promotion getPromotions(@PathVariable String id) {
         return promotionsRepository.findById(id).get();
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping(path = "/auth/new")
-    public Promotions newCategory(@RequestBody Promotions promotions) {
+    public Promotion newCategory(@RequestBody Promotion promotions) {
 
-         Promotions newpromotions = promotionsRepository.save(promotions);
+         Promotion newpromotions = promotionsRepository.save(promotions);
         System.out.println(newpromotions.getPromName() + "is added ");
 
         return newpromotions;
@@ -42,7 +42,7 @@ public class PromotionsController{
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(path = "/auth")
-    public Promotions updatePromotions(@RequestBody Promotions promotions) {
+    public Promotion updatePromotions(@RequestBody Promotion promotions) {
 
         System.out.println(promotions.getPromName() +" is updating");
         return promotionsRepository.save(promotions);

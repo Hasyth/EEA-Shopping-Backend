@@ -16,7 +16,7 @@ public class Product {
     private String prodName;
     private String prodDescription;
 
-    @Column(name = "p_category")
+    @Column(name = "prod_category")
     private String prodCategoryId;
     private Double prodPrice;
     private int prodQty;
@@ -24,7 +24,7 @@ public class Product {
     @ManyToOne
     @JoinColumn
     @JsonIgnoreProperties("products")
-    private Promotions promotions;
+    private Promotion promotion;
 
     private String prodImage;
 
@@ -78,12 +78,12 @@ public class Product {
         this.prodQty = prodQty;
     }
 
-    public Promotions getPromotions() {
-        return promotions;
+    public Promotion getPromotion() {
+        return promotion;
     }
 
-    public void setPromotions(Promotions promotions) {
-        this.promotions = promotions;
+    public void setPromotions(Promotion promotion) {
+        this.promotion = promotion;
     }
 
     public String getProdImage() {

@@ -27,7 +27,7 @@ public class CartController {
         return cartRepository.findAllByUserEmail(userId);
     }
 
-    @PostMapping(path = "/new")
+    @PostMapping(path = "/add")
     public Cart addNewCartItem(@RequestBody Cart newCartItem) {
         Cart cart = null;
         for(Cart cartItem : getCartItems()){

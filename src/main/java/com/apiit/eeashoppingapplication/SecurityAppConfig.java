@@ -1,6 +1,5 @@
 package com.apiit.eeashoppingapplication;
 
-import com.apiit.eeashoppingapplication.Models.AuthUserDetails;
 import com.apiit.eeashoppingapplication.Repositories.UserRepository;
 import com.apiit.eeashoppingapplication.Services.AuthUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
